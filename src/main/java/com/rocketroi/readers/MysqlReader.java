@@ -9,9 +9,9 @@ import java.util.Properties;
 /**
  * Created by morci7 on 24/12/15.
  */
-public class PostgresqlReader {
+public class MysqlReader {
 
-    private final static Logger log = Logger.getLogger(PostgresqlReader.class.getName());
+    private final static Logger log = Logger.getLogger(MysqlReader.class.getName());
 
     private Connection connection = null;
     private Long limit = 500L;
@@ -21,7 +21,7 @@ public class PostgresqlReader {
     private Boolean moreRows = true;
 
 
-    public PostgresqlReader(Properties prop) {
+    public MysqlReader(Properties prop) {
 
         //Inicializamos la conexion
         initConnection(prop);
@@ -86,7 +86,7 @@ public class PostgresqlReader {
 
     public void initConnection(Properties prop) {
 
-        log.debug("-------- PostgreSQL "
+        log.debug("-------- mysql "
                 + "JDBC Connection Testing ------------");
 
         try {
@@ -107,9 +107,7 @@ public class PostgresqlReader {
 
         try {
 
-            String url = "jdbc:postgresql://"+prop.getProperty("databaseServer")+":"+prop.getProperty("databasePort")+"/"+prop.getProperty("databaseName");
-
-            connection = DriverManager.getConnection(url, prop.getProperty("user"),
+            connection = DriverManager.getConnection(prop.getProperty("url"), prop.getProperty("user"),
                     prop.getProperty("password"));
 
         } catch (SQLException e) {

@@ -2,7 +2,9 @@ package com.rocketroi;
 
 import com.rocketroi.readers.PostgresqlReader;
 import com.rocketroi.writers.CsvWriter;
+import org.apache.log4j.Logger;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,7 +14,9 @@ import java.util.Properties;
 /**
  * Created by morci7 on 24/12/15.
  */
-public class DbToCsv {
+public class DbToFeed {
+
+    private final static Logger log = Logger.getLogger(PostgresqlReader.class.getName());
 
 
     public static void main(String args[]) throws Exception{
@@ -54,6 +58,12 @@ public class DbToCsv {
             return null;
         }
 
+
+        File file = new File(propertiesPath);
+        if(!file.exists()){
+            ClassLoader classLoader = DbToFeed.class.getClassLoader();
+            propertiesPath = classLoader.getResource("DbToFeed.properties").getFile();
+        }
         Properties prop = getProperties(propertiesPath);
 
         if(prop.getProperty("user") == null || prop.getProperty("db") == null){
@@ -65,6 +75,7 @@ public class DbToCsv {
 
 
     private static Properties getProperties(String path){
+
         Properties prop = new Properties();
         InputStream input = null;
 
