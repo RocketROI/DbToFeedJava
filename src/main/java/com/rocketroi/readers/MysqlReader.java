@@ -11,14 +11,6 @@ import java.util.Properties;
  */
 public class MysqlReader extends DatabaseReader{
 
-    private Connection connection = null;
-    private Long limit = 500L;
-    private Long offset = 0L;
-    private String select = null;
-    private String[] columnNames;
-    private Boolean moreRows = true;
-
-
     public MysqlReader(Properties prop) {
 
         //Inicializamos la conexion
@@ -32,88 +24,23 @@ public class MysqlReader extends DatabaseReader{
         }
     }
 
-    public void killConnection() {
-        try {
-            connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public ArrayList<String> getRows() throws SQLException {
-
-        PreparedStatement statement = connection.prepareStatement(select + " limit "+limit+" offset "+offset);
-        ResultSet rs = statement.executeQuery();
-        ResultSetMetaData rsmd = rs.getMetaData();
-
-        ArrayList<String> list = new ArrayList<String>();
-        while (rs.next()) {
-            String data = new String();
-            for (int i = 1; i < rsmd.getColumnCount(); i++) {
-                if (i != 1) data += ",";
-                if (rsmd.getColumnType(i) == 12) {
-                    data += "\""+rs.getString(i)+"\"";
-                }else{
-                    data += rs.getString(i);
-                }
-            }
-            list.add(data);
-        }
-
-        if(list.size() < limit) moreRows = false;
-        else{
-            offset += limit;
-        }
-
-        return list;
-    }
-
-    public void prepareSelect(String select) throws SQLException {
-        this.select = select;
-
-        PreparedStatement statement = connection.prepareStatement(select + " limit 1");
-        ResultSet rs = statement.executeQuery();
-        ResultSetMetaData rsmd = rs.getMetaData();
-        columnNames = new String[rsmd.getColumnCount()];
-        for(int i = 0; i < rsmd.getColumnCount(); i++){
-            columnNames[i] = rsmd.getColumnName(i+1);
-        }
-
-        return;
-    }
-
     public void initConnection(Properties prop) {
 
-        log.debug("-------- mysql JDBC Connection Testing ------------");
-
         try {
-
             Class.forName("com.mysql.jdbc.Driver");
-
         } catch (ClassNotFoundException e) {
-
             log.error("Where is your Mysql JDBC Driver? "
                     + "Include in your library path!", e);
             return;
-
         }
 
-        System.out.println("Mysql JDBC Driver Registered!");
-
-
-
         try {
-
             String url = "jdbc:mysql://"+prop.getProperty("databaseServer")+":"+prop.getProperty("databasePort")+"/"+prop.getProperty("databaseName");
-
-            connection = DriverManager.getConnection(prop.getProperty("url"), prop.getProperty("user"),
-                    prop.getProperty("password"));
+            connection = DriverManager.getConnection(url, prop.getProperty("user"), prop.getProperty("password"));
 
         } catch (SQLException e) {
-
             log.error("Connection Failed! Check output console", e);
             return;
-
         }
 
         if (connection != null) {
@@ -123,13 +50,5 @@ public class MysqlReader extends DatabaseReader{
         }
     }
 
-    public Boolean hasMoreRows() {
-        return moreRows;
-    }
-
-
-    public String[] getColumnNames(){
-        return columnNames;
-    }
 
 }

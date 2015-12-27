@@ -57,6 +57,20 @@ public class DatabaseReader {
         return list;
     }
 
+    public void prepareSelect(String select) throws SQLException {
+        this.select = select;
+
+        PreparedStatement statement = connection.prepareStatement(select + " limit 1");
+        ResultSet rs = statement.executeQuery();
+        ResultSetMetaData rsmd = rs.getMetaData();
+        columnNames = new String[rsmd.getColumnCount()];
+        for(int i = 0; i < rsmd.getColumnCount(); i++){
+            columnNames[i] = rsmd.getColumnName(i+1);
+        }
+
+        return;
+    }
+
     public Boolean hasMoreRows() {
         return moreRows;
     }
