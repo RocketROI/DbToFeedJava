@@ -25,22 +25,25 @@ public class DbToFeed {
 
         Properties prop = checkArguments(args);
 
-        DatabaseReader reader;
-        if(prop.getProperty("postgres").equals("postgres")){
-            reader = new PostgresqlReader(prop);
-        }else{
-            reader = new MysqlReader(prop);
-        }
-        CsvWriter writer = new CsvWriter(prop.getProperty("output"));
-        writer.writeColumnsName(reader.getColumnNames());
-        while (reader.hasMoreRows()) {
-            ArrayList<String> list = reader.getRows();
-            writer.write(list);
-        }
-        writer.closeFile();
-        reader.killConnection();
+        if(prop != null) {
 
-        log.info("finalizado");
+            DatabaseReader reader;
+            if (prop.getProperty("database").equals("postgres")) {
+                reader = new PostgresqlReader(prop);
+            } else {
+                reader = new MysqlReader(prop);
+            }
+            CsvWriter writer = new CsvWriter(prop.getProperty("output"));
+            writer.writeColumnsName(reader.getColumnNames());
+            while (reader.hasMoreRows()) {
+                ArrayList<String> list = reader.getRows();
+                writer.write(list);
+            }
+            writer.closeFile();
+            reader.killConnection();
+
+            log.info("finalizado");
+        }
 
     }
 
@@ -66,7 +69,7 @@ public class DbToFeed {
         }
         Properties prop = getProperties(propertiesPath);
 
-        if(prop.getProperty("user") == null || prop.getProperty("db") == null){
+        if(prop.getProperty("user") == null || prop.getProperty("database") == null){
             return null;
         }
 
