@@ -86,26 +86,27 @@ public class MysqlReader {
 
     public void initConnection(Properties prop) {
 
-        log.debug("-------- mysql "
-                + "JDBC Connection Testing ------------");
+        log.debug("-------- mysql JDBC Connection Testing ------------");
 
         try {
 
-            Class.forName("org.postgresql.Driver");
+            Class.forName("com.mysql.jdbc.Driver");
 
         } catch (ClassNotFoundException e) {
 
-            log.error("Where is your PostgreSQL JDBC Driver? "
+            log.error("Where is your Mysql JDBC Driver? "
                     + "Include in your library path!", e);
             return;
 
         }
 
-        System.out.println("PostgreSQL JDBC Driver Registered!");
+        System.out.println("Mysql JDBC Driver Registered!");
 
 
 
         try {
+
+            String url = "jdbc:mysql://"+prop.getProperty("databaseServer")+":"+prop.getProperty("databasePort")+"/"+prop.getProperty("databaseName");
 
             connection = DriverManager.getConnection(prop.getProperty("url"), prop.getProperty("user"),
                     prop.getProperty("password"));
