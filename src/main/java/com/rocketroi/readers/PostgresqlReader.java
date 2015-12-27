@@ -1,16 +1,17 @@
-package com.rocketroi;
+package com.rocketroi.readers;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
+import org.apache.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Properties;
-import java.util.StringTokenizer;
 
 /**
  * Created by morci7 on 24/12/15.
  */
 public class PostgresqlReader {
+
+    private final static Logger log = Logger.getLogger(PostgresqlReader.class.getName());
 
     private Connection connection = null;
     private Long limit = 500L;
@@ -85,7 +86,7 @@ public class PostgresqlReader {
 
     public void initConnection(Properties prop) {
 
-        System.out.println("-------- PostgreSQL "
+        log.debug("-------- PostgreSQL "
                 + "JDBC Connection Testing ------------");
 
         try {
@@ -94,9 +95,8 @@ public class PostgresqlReader {
 
         } catch (ClassNotFoundException e) {
 
-            System.out.println("Where is your PostgreSQL JDBC Driver? "
-                    + "Include in your library path!");
-            e.printStackTrace();
+            log.error("Where is your PostgreSQL JDBC Driver? "
+                    + "Include in your library path!", e);
             return;
 
         }
@@ -112,16 +112,15 @@ public class PostgresqlReader {
 
         } catch (SQLException e) {
 
-            System.out.println("Connection Failed! Check output console");
-            e.printStackTrace();
+            log.error("Connection Failed! Check output console", e);
             return;
 
         }
 
         if (connection != null) {
-            System.out.println("You made it, take control your database now!");
+            log.debug("You made it, take control your database now!");
         } else {
-            System.out.println("Failed to make connection!");
+            log.debug("Failed to make connection!");
         }
     }
 

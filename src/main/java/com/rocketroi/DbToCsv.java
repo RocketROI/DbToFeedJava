@@ -1,5 +1,6 @@
 package com.rocketroi;
 
+import com.rocketroi.readers.PostgresqlReader;
 import com.rocketroi.writers.CsvWriter;
 
 import java.io.FileInputStream;
@@ -7,7 +8,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Properties;
-import java.util.ResourceBundle;
 
 /**
  * Created by morci7 on 24/12/15.

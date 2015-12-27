@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.rocketroi</groupId>
-    <artifactId>DbToCsv</artifactId>
+    <artifactId>DbToCsvJava</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <dependencies>
@@ -18,6 +18,11 @@
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>9.4.1207.jre7</version>
+        </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.17</version>
         </dependency>
 
     </dependencies>
