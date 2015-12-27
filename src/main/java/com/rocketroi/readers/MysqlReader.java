@@ -9,9 +9,7 @@ import java.util.Properties;
 /**
  * Created by morci7 on 24/12/15.
  */
-public class MysqlReader {
-
-    private final static Logger log = Logger.getLogger(MysqlReader.class.getName());
+public class MysqlReader extends DatabaseReader{
 
     private Connection connection = null;
     private Long limit = 500L;

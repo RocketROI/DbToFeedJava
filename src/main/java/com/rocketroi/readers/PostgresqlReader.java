@@ -9,16 +9,7 @@ import java.util.Properties;
 /**
  * Created by morci7 on 24/12/15.
  */
-public class PostgresqlReader {
-
-    private final static Logger log = Logger.getLogger(PostgresqlReader.class.getName());
-
-    private Connection connection = null;
-    private Long limit = 500L;
-    private Long offset = 0L;
-    private String select = null;
-    private String[] columnNames;
-    private Boolean moreRows = true;
+public class PostgresqlReader extends DatabaseReader{
 
 
     public PostgresqlReader(Properties prop) {
@@ -32,42 +23,6 @@ public class PostgresqlReader {
         }catch (Exception e){
             e.printStackTrace();
         }
-    }
-
-    public void killConnection() {
-        try {
-            connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public ArrayList<String> getRows() throws SQLException {
-
-        PreparedStatement statement = connection.prepareStatement(select + " limit "+limit+" offset "+offset);
-        ResultSet rs = statement.executeQuery();
-        ResultSetMetaData rsmd = rs.getMetaData();
-
-        ArrayList<String> list = new ArrayList<String>();
-        while (rs.next()) {
-            String data = new String();
-            for (int i = 1; i < rsmd.getColumnCount(); i++) {
-                if (i != 1) data += ",";
-                if (rsmd.getColumnType(i) == 12) {
-                    data += "\""+rs.getString(i)+"\"";
-                }else{
-                    data += rs.getString(i);
-                }
-            }
-            list.add(data);
-        }
-
-        if(list.size() < limit) moreRows = false;
-        else{
-            offset += limit;
-        }
-
-        return list;
     }
 
     public void prepareSelect(String select) throws SQLException {
@@ -101,7 +56,7 @@ public class PostgresqlReader {
 
         }
 
-        System.out.println("PostgreSQL JDBC Driver Registered!");
+        log.debug("PostgreSQL JDBC Driver Registered!");
 
 
 
@@ -126,13 +81,5 @@ public class PostgresqlReader {
         }
     }
 
-    public Boolean hasMoreRows() {
-        return moreRows;
-    }
-
-
-    public String[] getColumnNames(){
-        return columnNames;
-    }
 
 }

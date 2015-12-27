@@ -1,5 +1,7 @@
 package com.rocketroi;
 
+import com.rocketroi.readers.DatabaseReader;
+import com.rocketroi.readers.MysqlReader;
 import com.rocketroi.readers.PostgresqlReader;
 import com.rocketroi.writers.CsvWriter;
 import org.apache.log4j.Logger;
@@ -23,8 +25,12 @@ public class DbToFeed {
 
         Properties prop = checkArguments(args);
 
-
-        PostgresqlReader reader = new PostgresqlReader(prop);
+        DatabaseReader reader;
+        if(prop.getProperty("postgres").equals("postgres")){
+            reader = new PostgresqlReader(prop);
+        }else{
+            reader = new MysqlReader(prop);
+        }
         CsvWriter writer = new CsvWriter(prop.getProperty("output"));
         writer.writeColumnsName(reader.getColumnNames());
         while (reader.hasMoreRows()) {
@@ -34,14 +40,14 @@ public class DbToFeed {
         writer.closeFile();
         reader.killConnection();
 
-        printMessage("finalizado");
+        log.info("finalizado");
 
     }
 
     private static Properties checkArguments(String args[]){
         //Si no hay argumentos, se para el proceso
         if(args == null || args.length == 0){
-            printMessage("Not enough arguments");
+            log.info("Not enough arguments");
             return null;
         }
 
@@ -52,12 +58,6 @@ public class DbToFeed {
                 propertiesPath = s.replace("-file=", "");
             }
         }
-
-        if(propertiesPath == null){
-            printMessage("Not enough arguments");
-            return null;
-        }
-
 
         File file = new File(propertiesPath);
         if(!file.exists()){
@@ -99,10 +99,6 @@ public class DbToFeed {
             }
         }
         return prop;
-    }
-
-    private static void printMessage(String message){
-        System.out.println(message);
     }
 
 }
