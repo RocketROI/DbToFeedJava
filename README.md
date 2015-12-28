@@ -42,6 +42,19 @@ output=output.out
 
 ```
 
+Si usas MySql:
+```
+database=mysql
+databaseServer=127.0.0.1
+databasePort=3306
+databaseName=test
+user=test
+password=test
+select=select * from test_table
+output=output.out
+
+```
+
 El proceso empezará a hacer consultas incrementales de 500 registros hasta que haya acabado de generar todo el archivo de salida.
 
 Puedes controlar el número de registros por consulta añadiendo la siguiente linea al archivo de propiedades:
