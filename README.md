@@ -50,6 +50,8 @@ Puedes controlar el número de registros por consulta añadiendo la siguiente li
 limit=100
 ```
 
+Para llamar al ejecutable pasando como parametro el archivo de propiedades:
 
-
-Se trata
+```
+java -jar DbToFeedJava-0.1.jar -file="/path/to/archive.properties"
+```
