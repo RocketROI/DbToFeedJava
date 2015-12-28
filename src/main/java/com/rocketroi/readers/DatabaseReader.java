@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Properties;
 
 /**
  * Created by morci7 on 27/12/15.
@@ -20,6 +21,11 @@ public class DatabaseReader {
     public Boolean moreRows = true;
 
 
+    public DatabaseReader(Properties prop) {
+        if(prop.getProperty("limit")!=null){
+            limit = Long.valueOf(prop.getProperty("limit"));
+        }
+    }
 
     public void killConnection() {
         try {

@@ -12,6 +12,7 @@ public class PostgresqlReader extends DatabaseReader{
     public PostgresqlReader(Properties prop) {
 
         //Inicializamos la conexion
+        super(prop);
         initConnection(prop);
 
         //Preparamos la consulta

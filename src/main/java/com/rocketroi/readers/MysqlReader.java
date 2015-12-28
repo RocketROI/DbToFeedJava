@@ -12,6 +12,7 @@ public class MysqlReader extends DatabaseReader{
     public MysqlReader(Properties prop) {
 
         //Inicializamos la conexion
+        super(prop);
         initConnection(prop);
 
         //Preparamos la consulta
