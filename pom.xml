@@ -6,7 +6,7 @@
 
     <groupId>com.rocketroi</groupId>
     <artifactId>DbToFeedJava</artifactId>
-    <version>1.0</version>
+    <version>0.1</version>
     <!-- Output to jar format -->
     <packaging>jar</packaging>
     <properties>
