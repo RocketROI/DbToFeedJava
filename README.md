@@ -1,10 +1,10 @@
-Generador de Feeds de RocketROI a partir de una base de datos.
+Generador de Feeds de RocketROI a partir de una base de datos
 ==================================
 Se trata de un ejecutable en Java que dada una consulta en SQL, genera un archivo de con todos los resultados de forma bien estructurada. 
 
 El ejecutable contiene todas las librerias necesarias para ejecutarse. Solo necesita como parámetro el path de un archivo de propiedades.
 
-## Requirements
+## Requisitos
 
   * Java 1.6+
   * Maven 3.0+
